@@ -61,7 +61,29 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Blockchain specific colors
+				neon: {
+					green: 'hsl(var(--neon-green))',
+					blue: 'hsl(var(--neon-blue))',
+					purple: 'hsl(var(--neon-purple))',
+				},
+				cyber: {
+					orange: 'hsl(var(--cyber-orange))'
 				}
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-block': 'var(--gradient-block)',
+				'gradient-mining': 'var(--gradient-mining)',
+			},
+			boxShadow: {
+				'glow-neon': 'var(--glow-neon)',
+				'glow-mining': 'var(--glow-mining)',
+				'block': 'var(--shadow-block)',
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
