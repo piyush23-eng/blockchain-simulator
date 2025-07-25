@@ -138,6 +138,25 @@ export class BlockchainSimulator {
     return balance;
   }
 
+  getPendingBalance(address: string): number {
+    let pendingBalance = 0;
+
+    for (const transaction of this.pendingTransactions) {
+      if (transaction.from === address) {
+        pendingBalance -= (transaction.amount + transaction.fee);
+      }
+      if (transaction.to === address) {
+        pendingBalance += transaction.amount;
+      }
+    }
+
+    return pendingBalance;
+  }
+
+  getTotalBalance(address: string): number {
+    return this.getBalance(address) + this.getPendingBalance(address);
+  }
+
   isChainValid(): boolean {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];

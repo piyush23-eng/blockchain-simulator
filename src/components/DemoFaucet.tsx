@@ -10,9 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 interface DemoFaucetProps {
   onAddFaucetTransaction: (address: string, amount: number) => void;
   getBalance: (address: string) => number;
+  getPendingBalance: (address: string) => number;
 }
 
-export const DemoFaucet = ({ onAddFaucetTransaction, getBalance }: DemoFaucetProps) => {
+export const DemoFaucet = ({ onAddFaucetTransaction, getBalance, getPendingBalance }: DemoFaucetProps) => {
   const [faucetAddress, setFaucetAddress] = useState("");
   const [lastFaucetTime, setLastFaucetTime] = useState<{ [key: string]: number }>({});
   const { toast } = useToast();
@@ -109,7 +110,10 @@ export const DemoFaucet = ({ onAddFaucetTransaction, getBalance }: DemoFaucetPro
                 <div className="flex flex-col items-start">
                   <span className="font-mono text-xs">{address}</span>
                   <span className="text-xs text-muted-foreground">
-                    {getBalance(address).toFixed(1)} coins
+                    {getBalance(address).toFixed(1)} 
+                    {getPendingBalance(address) > 0 && (
+                      <span className="text-cyber-orange"> (+{getPendingBalance(address).toFixed(1)} pending)</span>
+                    )} coins
                   </span>
                 </div>
                 <Coins className="w-4 h-4 text-cyber-orange" />
@@ -144,7 +148,12 @@ export const DemoFaucet = ({ onAddFaucetTransaction, getBalance }: DemoFaucetPro
           {faucetAddress && (
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Coins className="w-3 h-3" />
-              Current Balance: {getBalance(faucetAddress).toFixed(2)} coins
+              Confirmed: {getBalance(faucetAddress).toFixed(2)} coins
+              {getPendingBalance(faucetAddress) > 0 && (
+                <span className="text-cyber-orange ml-2">
+                  Pending: +{getPendingBalance(faucetAddress).toFixed(2)} coins
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -157,8 +166,8 @@ export const DemoFaucet = ({ onAddFaucetTransaction, getBalance }: DemoFaucetPro
           <ul className="space-y-1 ml-5">
             <li>• Get {FAUCET_AMOUNT} free coins per address</li>
             <li>• 30 second cooldown between requests</li>
+            <li className="text-cyber-orange font-semibold">• Mine a block to confirm pending coins!</li>
             <li>• Perfect for testing transactions</li>
-            <li>• Mine blocks to earn more coins!</li>
           </ul>
         </div>
       </div>

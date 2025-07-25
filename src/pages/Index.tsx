@@ -219,6 +219,7 @@ const Index = () => {
               <DemoFaucet
                 onAddFaucetTransaction={handleAddFaucetTransaction}
                 getBalance={(address) => blockchain.getBalance(address)}
+                getPendingBalance={(address) => blockchain.getPendingBalance(address)}
               />
               
               <TransactionForm
