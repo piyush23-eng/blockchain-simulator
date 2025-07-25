@@ -4,6 +4,7 @@ import { BlockCard } from "@/components/BlockCard";
 import { TransactionForm } from "@/components/TransactionForm";
 import { MiningPanel } from "@/components/MiningPanel";
 import { ChainStats } from "@/components/ChainStats";
+import { DemoFaucet } from "@/components/DemoFaucet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
@@ -44,6 +45,22 @@ const Index = () => {
 
   const handleAddTransaction = useCallback((transaction: Transaction) => {
     const success = blockchain.addTransaction(transaction);
+    if (success) {
+      refreshData();
+    }
+  }, [blockchain, refreshData]);
+
+  const handleAddFaucetTransaction = useCallback((address: string, amount: number) => {
+    const faucetTransaction: Transaction = {
+      id: `faucet-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      from: "faucet",
+      to: address,
+      amount: amount,
+      timestamp: Date.now(),
+      fee: 0
+    };
+    
+    const success = blockchain.addTransaction(faucetTransaction);
     if (success) {
       refreshData();
     }
@@ -199,6 +216,11 @@ const Index = () => {
             </div>
 
             <div className="space-y-6">
+              <DemoFaucet
+                onAddFaucetTransaction={handleAddFaucetTransaction}
+                getBalance={(address) => blockchain.getBalance(address)}
+              />
+              
               <TransactionForm
                 onAddTransaction={handleAddTransaction}
                 getBalance={(address) => blockchain.getBalance(address)}
